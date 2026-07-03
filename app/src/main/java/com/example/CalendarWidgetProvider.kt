@@ -25,6 +25,12 @@ class CalendarWidgetProvider : AppWidgetProvider() {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId)
         }
+        MidnightWidgetReceiver.scheduleNextMidnightAlarm(context)
+    }
+
+    override fun onEnabled(context: Context) {
+        super.onEnabled(context)
+        MidnightWidgetReceiver.scheduleNextMidnightAlarm(context)
     }
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {

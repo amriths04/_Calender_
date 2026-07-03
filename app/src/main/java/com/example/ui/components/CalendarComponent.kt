@@ -50,6 +50,7 @@ fun CalendarComponent(
 ) {
     val currentMonth by viewModel.currentYearMonth.collectAsState()
     val selectedDate by viewModel.selectedDate.collectAsState()
+    val today by viewModel.today.collectAsState()
     val firstDayOfWeek by viewModel.firstDayOfWeek.collectAsState()
     val widgetTheme by viewModel.widgetTheme.collectAsState()
     val isDark by viewModel.isDarkMode.collectAsState()
@@ -188,7 +189,6 @@ fun CalendarComponent(
                         Button(
                             onClick = {
                                 if (monthItem != todayMonth && !pagerState.isScrollInProgress && !isProgrammaticScrolling) {
-                                    val today = LocalDate.now()
                                     viewModel.selectDate(today)
                                     val targetPage = getMonthIndex(todayMonth)
                                     if (pagerState.currentPage != targetPage) {
@@ -271,6 +271,7 @@ fun CalendarComponent(
 
                     MonthView(
                         month = monthItem,
+                        today = today,
                         selectedDate = selectedDate,
                         firstDayOfWeek = firstDayOfWeek,
                         widgetTheme = widgetTheme,
@@ -325,6 +326,7 @@ fun CalendarComponent(
 @Composable
 fun MonthView(
     month: YearMonth,
+    today: LocalDate,
     selectedDate: LocalDate,
     firstDayOfWeek: Int,
     widgetTheme: com.example.data.WidgetTheme,
@@ -403,7 +405,6 @@ fun MonthView(
         }
 
         // Highly optimized index-based grid layout avoiding heavy loop allocations or repeating system clock queries
-        val today = remember { LocalDate.now() }
         val cellHorizontalPadding = ResponsiveUtil.moderateScale(1.5f)
         val cellVerticalPadding = ResponsiveUtil.moderateScale(0.05f)
         val cellFontSize = ResponsiveUtil.normalize(17f)

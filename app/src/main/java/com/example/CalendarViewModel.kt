@@ -26,6 +26,31 @@ import java.time.YearMonth
 class CalendarViewModel(application: Application) : AndroidViewModel(application) {
     private val context = application.applicationContext
     private val repository: CalendarRepository
+    
+    // Current app display parameters
+    val activeTab = MutableStateFlow("calendar") // "calendar" or "customise"
+    val isDarkMode = MutableStateFlow(false) // Safe default to prevent blocking app startup
+
+    // Widget specific configs
+    val widgetTheme = MutableStateFlow(WidgetTheme.VIBRANT_PURPLE)
+    val widgetTransparency = MutableStateFlow(0)
+    val firstDayOfWeek = MutableStateFlow(1)
+
+    // Active viewing Month
+    val currentYearMonth = MutableStateFlow(YearMonth.now())
+
+    // Current real-world date
+    val today = MutableStateFlow(LocalDate.now())
+
+    // Selected day in Calendar View
+    val selectedDate = MutableStateFlow(LocalDate.now())
+
+    fun refreshCurrentDate() {
+        val currentDate = LocalDate.now()
+        if (today.value != currentDate) {
+            today.value = currentDate
+        }
+    }
 
     init {
         val database = CalendarDatabase.getDatabase(context)
@@ -39,21 +64,6 @@ class CalendarViewModel(application: Application) : AndroidViewModel(application
             firstDayOfWeek.value = WidgetSettings.getFirstDayOfWeek(context)
         }
     }
-
-    // Current app display parameters
-    val activeTab = MutableStateFlow("calendar") // "calendar" or "customise"
-    val isDarkMode = MutableStateFlow(false) // Safe default to prevent blocking app startup
-
-    // Widget specific configs
-    val widgetTheme = MutableStateFlow(WidgetTheme.VIBRANT_PURPLE)
-    val widgetTransparency = MutableStateFlow(0)
-    val firstDayOfWeek = MutableStateFlow(1)
-
-    // Active viewing Month
-    val currentYearMonth = MutableStateFlow(YearMonth.now())
-
-    // Selected day in Calendar View
-    val selectedDate = MutableStateFlow(LocalDate.now())
 
     // List of events saved for the selected day
     val eventsForSelectedDate: StateFlow<List<CalendarEvent>> = selectedDate
@@ -113,12 +123,14 @@ class CalendarViewModel(application: Application) : AndroidViewModel(application
                     category = category
                 )
             )
+            CalendarWidgetProvider.triggerAllWidgetsUpdate(context)
         }
     }
 
     fun deleteEvent(event: CalendarEvent) {
         viewModelScope.launch {
             repository.delete(event)
+            CalendarWidgetProvider.triggerAllWidgetsUpdate(context)
         }
     }
 

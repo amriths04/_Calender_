@@ -1,6 +1,10 @@
 package com.example.ui.screens
 
 import android.widget.Toast
+import android.os.Build
+import android.content.Intent
+import android.app.AlarmManager
+import android.provider.Settings
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -73,6 +77,51 @@ fun CustomiseTabScreen(viewModel: CalendarViewModel) {
             // Reusing the same calendar component for preview!
             Box(modifier = Modifier.fillMaxWidth().wrapContentHeight()) {
                 WidgetComponent(viewModel)
+            }
+        }
+
+        // Exact Alarm Permission for Midnight Updates
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            item {
+                val alarmManager = context.getSystemService(android.content.Context.ALARM_SERVICE) as AlarmManager
+                if (!alarmManager.canScheduleExactAlarms()) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = 0.8f)
+                        ),
+                        shape = RoundedCornerShape(16.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text(
+                                text = "Perfect Midnight Updates",
+                                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold, fontSize = 15.sp),
+                                color = MaterialTheme.colorScheme.onErrorContainer
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = "To ensure your widget updates exactly at midnight, please allow 'Alarms & Reminders' permission.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.8f)
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Button(
+                                onClick = {
+                                    val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                                    context.startActivity(intent)
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = MaterialTheme.colorScheme.onErrorContainer,
+                                    contentColor = MaterialTheme.colorScheme.errorContainer
+                                ),
+                                shape = RoundedCornerShape(10.dp)
+                            ) {
+                                Text("Grant Permission", style = MaterialTheme.typography.labelLarge)
+                            }
+                        }
+                    }
+                }
             }
         }
 
