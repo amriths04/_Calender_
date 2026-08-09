@@ -1,11 +1,6 @@
-<div align="center">
-<img width="1200" height="475" alt="Desk Calendar Banner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-
 # 📅 Customisable Desk Calendar
 
 A premium, high-fidelity Android calendar application featuring interactive event tracking, customisable desktop widgets, rich animations, and an integrated real-time widget simulator. 
-
-</div>
 
 ---
 
@@ -20,9 +15,29 @@ A premium, high-fidelity Android calendar application featuring interactive even
 * An ultra-smooth, custom tactile toggle that animates weather backgrounds:
   * **Day Mode**: Features moving clouds and glowing yellow sunbeam rings.
   * **Night Mode**: Features twinkling stars, sliding craters, and soft concentric moonbeams.
+### 3. ⚙️ Customisable Week Start
+
+- Choose whether the calendar week begins on **Sunday or Monday**, to match your personal preference .
 
 ---
+## 📸 Screenshots
 
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/c1d35472-3161-4ef0-a7a5-4fc71ba41ab2" width="300">
+      <br>
+      <b>Calendar Tab</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/a7b28370-7219-4f84-b52d-be6489339e18" width="300">
+      <br>
+      <b>Widget Tab</b>
+    </td>
+  </tr>
+</table>
+
+---
 ## 🚀 Installation
 
 Simply install the pre-compiled APK directly onto your Android device:
@@ -33,6 +48,8 @@ Simply install the pre-compiled APK directly onto your Android device:
 4. Open the application from your app drawer.
 
 ---
+<div align="center">
+ <img width="1200" height="475" alt="Desk Calendar Banner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
 
 <div align="center">
   <sub>Developed as an interactive AI Studio app. View the original app setup <a href="https://ai.studio/apps/b9c3cc7a-8c60-4bcd-940f-488943011a79">here</a>.</sub>
